@@ -10,13 +10,13 @@ namespace Tabulator
         // a vote is a List<List<String>>
         List<List<String>> Item = new List<List<String>>();
         readonly char NAME_SEPARATOR = ']';
-        public Vote(string lineOfText)
+        public Vote(string line)
         {
             List<List<string>> vote = new List<List<string>>(); // create an empty nested list
 
             // uncomment to allow names to contain commas and double quotes
             Regex regx = new Regex(',' + "(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-            var postSplit = regx.Split(lineOfText).Skip(2);
+            var postSplit = regx.Split(line).Skip(2);
             postSplit = postSplit.Select(x => x.Trim('"'));
 
             // uncomment to not allow commas and double quotes in names
