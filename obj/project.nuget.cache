@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "34c8keLGxkrUsm0erXzKaKvpxPtfyB7u7gsJtGOGqbQnLCXlwdn4nFRwFU2oJmrL1EQGwFvIaFP6UBtNFvsFhA==",
+  "dgSpecHash": "IqPwJTjBkEkJGdHPyKcvvJOhc+uIiJun7ESn5BawdbXySNUik3ZYE4wLNpmlEV24bL9wnNuMJtgjMBLTtKYQOw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\kevin\\Documents\\repos\\Tabulator\\Tabulator.csproj",
+  "projectFilePath": "C:\\Users\\kevin\\source\\repos\\Tabulator\\Tabulator.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
