@@ -22,6 +22,7 @@ namespace Tabulator
             Console.WriteLine();
             StreamReader file = new StreamReader("Mayor.csv");
             string line = file.ReadLine();
+            file.Close();
             Console.WriteLine(line);
             Vote testVote = new Vote(line);
             testVote.Display();
@@ -42,13 +43,34 @@ namespace Tabulator
                 Console.WriteLine("Vote is still good!");
             }
 
+            Console.WriteLine("Eliminate both candidates in first choice");
+            testVote.Eliminate("Kate \"Kim\" Stewart, Jr.");
+            testVote.Eliminate("Roger Schlegel");
+            Console.WriteLine(testVote.FirstChoice());
+            testVote.Eliminate("Roger Schlegel");
 
+            Console.WriteLine();
+            Console.WriteLine("Reading all lines");
+            string fileLine;
+            List<Vote> voteList = new List<Vote>();
+            file = new StreamReader("Mayor.csv");
+            while ((fileLine = file.ReadLine()) != null)
+            {
+                Console.WriteLine($"{fileLine}");
+                voteList.Add(new Vote(fileLine));
+            }
+            Console.WriteLine();
+            int voteListIndex = 0;
+            foreach (Vote vote in voteList)
+            {
+                Console.WriteLine($"VoteList[{voteListIndex}]");
+                vote.Display();
+                Console.WriteLine();
+                voteListIndex++;
+            }
 
-
-
-
+            Console.WriteLine("\r\nDone! Press return key to exit...");
+            Console.ReadLine();
         }
-
-
     }
 }

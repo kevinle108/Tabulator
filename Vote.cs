@@ -12,7 +12,7 @@ namespace Tabulator
         readonly char NAME_SEPARATOR = ']';
         public Vote(string line)
         {
-            List<List<string>> vote = new List<List<string>>(); // create an empty nested list
+            List<List<string>> vote = new List<List<string>>();
 
             // uncomment to allow names to contain commas and double quotes
             Regex regx = new Regex(',' + "(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
@@ -28,7 +28,6 @@ namespace Tabulator
             {
                 postSplit = postSplit.SkipLast(1).ToList();
             }
-            
 
             foreach (string ele in postSplit)
             {
@@ -41,7 +40,6 @@ namespace Tabulator
                     vote.Add(new List<string> { ele });
                 }
             }
-
             Item = vote;
         }
 
@@ -49,11 +47,9 @@ namespace Tabulator
         {
             for (int i = 0; i < Item.Count; i++)
             {
-                Console.WriteLine();
-                Console.WriteLine($"Vote.Item[{i}]");
                 for (int j = 0; j < Item[i].Count; j++)
                 {
-                    Console.WriteLine(Item[i][j]);
+                    Console.WriteLine($"  Vote.Item[{i}]: { Item[i][j]}");
                 }
             }
         }
@@ -61,7 +57,15 @@ namespace Tabulator
         public string FirstChoice()
         {
             // use Aggregate() in case there is more than 1 candidate for 1st Choice
-            return Item[0].Aggregate((message, name) => $"{message} & {name}");
+            if (Item.Count < 1)
+            {
+                return "THIS VOTE IS EMPTY!";
+            }
+            else 
+            {
+                return Item[0].Aggregate((message, name) => $"{message} & {name}");
+            }
+            
         }
 
         public Vote Eliminate(string name)
@@ -73,7 +77,6 @@ namespace Tabulator
 
             // clean up choices that have null candidates
             Item.RemoveAll(x => x.Count == 0);
-
             return this;
         }
 
@@ -81,8 +84,5 @@ namespace Tabulator
         {
             return Item[0].Count > 1;
         }
-
-        
-
     }
 }

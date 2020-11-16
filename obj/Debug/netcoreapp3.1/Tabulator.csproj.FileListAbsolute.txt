@@ -11,3 +11,16 @@ C:\Users\kevin\Source\Repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.csproj.C
 C:\Users\kevin\Source\Repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.dll
 C:\Users\kevin\Source\Repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.pdb
 C:\Users\kevin\Source\Repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.genruntimeconfig.cache
+C:\Users\bushc\source\repos\Tabulator\bin\Debug\netcoreapp3.1\Tabulator.exe
+C:\Users\bushc\source\repos\Tabulator\bin\Debug\netcoreapp3.1\Tabulator.deps.json
+C:\Users\bushc\source\repos\Tabulator\bin\Debug\netcoreapp3.1\Tabulator.runtimeconfig.json
+C:\Users\bushc\source\repos\Tabulator\bin\Debug\netcoreapp3.1\Tabulator.runtimeconfig.dev.json
+C:\Users\bushc\source\repos\Tabulator\bin\Debug\netcoreapp3.1\Tabulator.dll
+C:\Users\bushc\source\repos\Tabulator\bin\Debug\netcoreapp3.1\Tabulator.pdb
+C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.csprojAssemblyReference.cache
+C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.AssemblyInfoInputs.cache
+C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.AssemblyInfo.cs
+C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.csproj.CoreCompileInputs.cache
+C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.dll
+C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.pdb
+C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.genruntimeconfig.cache
