@@ -10,16 +10,7 @@ namespace Tabulator
     {
         public static void Main()
         {
-            string lineOfText = "1,00000400,Kate Stewart]Miley Houston]David Michael,Miley Houston]David Michael,Roger Schlegel,";
-
-            Vote test = new Vote(lineOfText);
-            test.Display();
-
-            Console.WriteLine($"1st Choice: {test.FirstChoice()}");
-
-            Console.WriteLine();
             Console.WriteLine("Testing input file:");
-            Console.WriteLine();
             StreamReader file = new StreamReader("Mayor.csv");
             string line = file.ReadLine();
             file.Close();
@@ -27,13 +18,12 @@ namespace Tabulator
             Vote testVote = new Vote(line);
             testVote.Display();
 
-            Console.WriteLine();
-            Console.WriteLine("Eliminate David Michael:");
+            Console.WriteLine($"\r\nFirst Choice: {testVote.FirstChoice()}");
+            Console.WriteLine("\r\nEliminate David Michael:");
             testVote = testVote.Eliminate("David Michael");
             testVote.Display();
 
-            Console.WriteLine();
-            Console.WriteLine("Is vote exhausted? ...");
+            Console.WriteLine("\r\nIs vote exhausted? ...");
             if (testVote.IsExhausted() == true)
             {
                 Console.WriteLine("Vote is exhausted! Remove this vote.");
@@ -43,34 +33,19 @@ namespace Tabulator
                 Console.WriteLine("Vote is still good!");
             }
 
-            Console.WriteLine("Eliminate both candidates in first choice");
-            testVote.Eliminate("Kate \"Kim\" Stewart, Jr.");
-            testVote.Eliminate("Roger Schlegel");
-            Console.WriteLine(testVote.FirstChoice());
-            testVote.Eliminate("Roger Schlegel");
+            Console.WriteLine("\r\nEliminate Roger Schlegel:");
+            testVote = testVote.Eliminate("Roger Schlegel");
+            testVote.Display();
 
-            Console.WriteLine();
-            Console.WriteLine("Reading all lines");
-            string fileLine;
-            List<Vote> voteList = new List<Vote>();
-            file = new StreamReader("Mayor.csv");
-            while ((fileLine = file.ReadLine()) != null)
+            Console.WriteLine("\r\nIs vote exhausted? ...");
+            if (testVote.IsExhausted() == true)
             {
-                Console.WriteLine($"{fileLine}");
-                voteList.Add(new Vote(fileLine));
+                Console.WriteLine("Vote is exhausted! Remove this vote.");
             }
-            Console.WriteLine();
-            int voteListIndex = 0;
-            foreach (Vote vote in voteList)
+            else if (testVote.IsExhausted() == false)
             {
-                Console.WriteLine($"VoteList[{voteListIndex}]");
-                vote.Display();
-                Console.WriteLine();
-                voteListIndex++;
+                Console.WriteLine("Vote is still good!");
             }
-
-            Console.WriteLine("\r\nDone! Press return key to exit...");
-            Console.ReadLine();
         }
     }
 }

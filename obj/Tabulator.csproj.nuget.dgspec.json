@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bushc\\source\\repos\\Tabulator\\Tabulator.csproj": {}
+    "C:\\Users\\kevin\\source\\repos\\Tabulator\\Tabulator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bushc\\source\\repos\\Tabulator\\Tabulator.csproj": {
+    "C:\\Users\\kevin\\source\\repos\\Tabulator\\Tabulator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bushc\\source\\repos\\Tabulator\\Tabulator.csproj",
+        "projectUniqueName": "C:\\Users\\kevin\\source\\repos\\Tabulator\\Tabulator.csproj",
         "projectName": "Tabulator",
-        "projectPath": "C:\\Users\\bushc\\source\\repos\\Tabulator\\Tabulator.csproj",
-        "packagesPath": "C:\\Users\\bushc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bushc\\source\\repos\\Tabulator\\obj\\",
+        "projectPath": "C:\\Users\\kevin\\source\\repos\\Tabulator\\Tabulator.csproj",
+        "packagesPath": "C:\\Users\\kevin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kevin\\source\\repos\\Tabulator\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\bushc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\kevin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
