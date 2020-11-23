@@ -46,6 +46,88 @@ namespace Tabulator
             {
                 Console.WriteLine("Vote is still good!");
             }
+
+            Console.WriteLine("\r\nTesting CanidateVote Class:");
+            CandidateVotes voteCount1 = new CandidateVotes("Kevin", 5);
+            voteCount1.Display();
+            voteCount1.Count++;
+            voteCount1.Display();
+        }
+
+        public List<string> CsvParser(string line)
+        {
+            List<string> nameList = new List<string>();
+            string buildName = "";
+            string state = "start";
+            foreach (char c in line)
+            {
+                if (state == "start")
+                {
+                    if (c == ',')
+                    {
+                        nameList.Add(buildName.Trim('"'));
+                        buildName = "";
+                        state = "start";
+                    }
+                    else if (c == '"')
+                    {
+                        buildName += c;
+                        state = "insideQuoted";
+                    }
+                    else
+                    {
+                        buildName += c;
+                        state = "insideUnquoted";
+                    }
+                }
+                else if (state == "insideUnquoted")
+                {
+                    if (c == ',')
+                    {
+                        nameList.Add(buildName.Trim('"'));
+                        buildName = "";
+                        state = "start";
+                    }
+                    else
+                    {
+                        buildName += c;
+                        state = "insideUnquoted";
+                    }
+                }
+                else if (state == "insideQuoted")
+                {
+                    if (c == '"')
+                    {
+                        buildName += c;
+                        state = "maybeOutsideQuoted";
+                    }
+                    else
+                    {
+                        buildName += c;
+                        state = "insideQuoted";
+                    }
+                }
+                else if (state == "maybeOutsideQuoted")
+                {
+                    if (c == '"')
+                    {
+                        state = "insideQuoted";
+                    }
+                    else if (c == ',')
+                    {
+                        nameList.Add(buildName.Trim('"'));
+                        buildName = "";
+                        state = "start";
+                    }
+                }
+            }
+
+            if (!String.IsNullOrEmpty(buildName))
+            {
+                nameList.Add(buildName.Trim('"'));
+            }
+
+            return nameList;
         }
     }
 }
