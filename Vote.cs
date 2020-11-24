@@ -7,7 +7,7 @@ namespace Tabulator
     class Vote
     {
         // a vote is a List<List<String>>
-        List<List<String>> Item = new List<List<String>>();
+        public List<String> Names = new List<String>();
         readonly char NAME_SEPARATOR = ']';
         public Vote(string line)
         {
@@ -85,61 +85,64 @@ namespace Tabulator
             // remove the first two elements in NameList because they are the image # and precinct code
             nameList.RemoveRange(0, 2);
 
-            foreach (string str in nameList)
-            {
-                if (str.Contains(NAME_SEPARATOR))
-                {
-                    Item.Add(str.Split(NAME_SEPARATOR).ToList());
-                }
-                else
-                {
-                    Item.Add(new List<string> { str });
-                }
-            }
+            Names = nameList;
         }
 
         public void Display()
         {
-            for (int i = 0; i < Item.Count; i++)
+            for (int i = 0; i < Names.Count; i++)
             {
-                Console.WriteLine();
-                Console.WriteLine($"Vote.Item[{i}] Count:{Item[i].Count}");
-                for (int j = 0; j < Item[i].Count; j++)
-                {
-                    Console.WriteLine($"   {j}:{Item[i][j]}");
-                }
+                Console.WriteLine($"   Vote.Names[{i}]: {Names[i]}");
             }
         }
 
         public string FirstChoice()
         {
             // use Aggregate() in case there is more than 1 candidate for 1st Choice
-            if (Item.Count < 1)
+            if (Names.Count == 0)
             {
-                return "THIS VOTE IS EMPTY!";
+                return "";
             }
-            else 
+            else if (Names[0].Contains(NAME_SEPARATOR))
             {
-                return Item[0].Aggregate((message, name) => $"{message} & {name}");
+                return "";
+            } 
+            else
+            {
+                if (Names[0] == "")
+                {
+                    if (String.IsNullOrEmpty(Names[1]) || Names[1].Contains(NAME_SEPARATOR))
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return Names[1];
+                    }
+                }
+                else
+                {
+                    return Names[0];
+                }
             }
-            
         }
 
-        public Vote Eliminate(string name)
+        public Vote Eliminate(string nameToEliminate)
         {
-            for (int i = 0; i < Item.Count; i++)
-            {
-                Item[i].RemoveAll(x => x == name);
-            }
 
-            // clean up choices that have null candidates
-            Item.RemoveAll(x => x.Count == 0);
+            Names.RemoveAll(x => x == nameToEliminate); // to remove exact matches
+
+            // to find and remove matches where there is more than 1 candidate / rank
+            for (int i = 0; i < Names.Count; i++) 
+            {
+                if (Names[i].Contains(nameToEliminate) && Names[i].Contains(NAME_SEPARATOR))
+                {
+                    List<string> split = Names[i].Split(NAME_SEPARATOR).ToList();
+                    split.RemoveAll(x => x == nameToEliminate);
+                    Names[i] = String.Join(NAME_SEPARATOR, split); //rebuild the string
+                }
+            }
             return this;
-        }
-
-        public bool IsExhausted()
-        {
-            return Item[0].Count > 1;
         }
     }
 }
