@@ -61,12 +61,14 @@ namespace Tabulator
             votes.Eliminate("Roger Schlegel");
             votes.Display();
 
-            List<CandidateVotes> tallies = votes.Count();
+            Round round = votes.Count();
             Console.WriteLine($"Displaying vote counts...");
-            foreach (CandidateVotes tally in tallies)
-            {
-                tally.Display();
-            }
+            round.Display();
+
+            Console.WriteLine($"Displaying winner...");
+            Console.WriteLine(round.HasWinner() ? "yes winner!" : "no winner...");
+            
+
         }
 
         public List<string> CsvParser(string line)

@@ -46,36 +46,36 @@ namespace Tabulator
             Votes.RemoveAll(x => x.Names.Count == 0);
         }
 
-        public List<CandidateVotes> Count()
+        public Round Count()
         {
-            List<CandidateVotes> tallies = new List<CandidateVotes>();
+            Round round = new Round();
             foreach (Vote vote in Votes)
             {
                 if (vote.FirstChoice() != "")
                 {
                     
                     string firstChoiceName = vote.FirstChoice();
-                    if (tallies.Count == 0)
+                    if (round.Tally.Count == 0)
                     {
-                        tallies.Add(new CandidateVotes(firstChoiceName, 1));
+                        round.Tally.Add(new CandidateVotes(firstChoiceName, 1));
                     }
                     else
                     {
-                        int nameIndex = tallies.FindIndex(x => x.Name == firstChoiceName);
+                        int nameIndex = round.Tally.FindIndex(x => x.Name == firstChoiceName);
                         if (nameIndex == -1)
                         {
-                            tallies.Add(new CandidateVotes(firstChoiceName, 1));
+                            round.Tally.Add(new CandidateVotes(firstChoiceName, 1));
                         }
                         else
                         {
-                            tallies[nameIndex].Count++;
+                            round.Tally[nameIndex].Count++;
                         }
                     }
                     
                 }
             }
-            tallies = tallies.OrderByDescending(x => x.Count).ToList();
-            return tallies;
+            round.Tally = round.Tally.OrderByDescending(x => x.Count).ToList();
+            return round;
         }
         
     }
