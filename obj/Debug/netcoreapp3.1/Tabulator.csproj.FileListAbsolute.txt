@@ -25,3 +25,4 @@ C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.dll
 C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.pdb
 C:\Users\bushc\source\repos\Tabulator\obj\Debug\netcoreapp3.1\Tabulator.genruntimeconfig.cache
 C:\Users\kevin\source\repos\Tabulator\bin\Debug\netcoreapp3.1\Mayor.csv
+C:\Users\bushc\source\repos\Tabulator\bin\Debug\netcoreapp3.1\Mayor.csv

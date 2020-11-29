@@ -31,5 +31,41 @@ namespace Tabulator
             }
             return false;
         }
+
+        public List<string> NamesToEliminate(List<Round> pastRounds)
+        {
+            List<string> names = new List<string>();
+            int savedIndex = 0;
+            int needed = Tally.Sum(x => x.Count) / 2;
+            for (int i = Tally.Count-1; i > 0; i--)
+            {
+                if (Tally.GetRange(i, Tally.Count - i).Sum(x => x.Count) < needed)
+                {
+                    savedIndex = i;
+                }
+            }
+            if (savedIndex == 0)
+            {
+                string name1 = Tally[savedIndex].Name;
+                Round lastRound = pastRounds[pastRounds.Count - 1];
+                int name1Count = lastRound.Tally[savedIndex].Count;
+                int name2Count = lastRound.Tally[savedIndex+1].Count;
+                if (name1Count > name2Count)
+                {
+                    names.Add(Tally[savedIndex + 1].Name);
+                }
+                else
+                {
+                    names.Add(Tally[savedIndex].Name);
+                }
+                return names;
+            }
+            if (Tally[savedIndex].Count == Tally[savedIndex-1].Count)
+            {
+                
+                savedIndex += 1;
+            }
+            return Tally.GetRange(savedIndex, Tally.Count - savedIndex).Select(x => x.Name).ToList();
+        }
     }
 }

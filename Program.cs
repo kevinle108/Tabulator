@@ -53,21 +53,78 @@ namespace Tabulator
             //voteCount1.Count++;
             //voteCount1.Display();
 
-            Console.WriteLine("\r\n...Testing VoteList Class:");
-            VoteList votes = new VoteList("Mayor.csv");
-            votes.Display();
-            Console.WriteLine("\r\n...Testing Eliminate Roger Schlegel:");
+            //Console.WriteLine("\r\n...Testing VoteList Class:");
+            //VoteList votes = new VoteList("Mayor.csv");
+            //votes.Display();
+            //Console.WriteLine("\r\n...Testing Eliminate Roger Schlegel:");
 
-            votes.Eliminate("Roger Schlegel");
-            votes.Display();
+            //votes.Eliminate("Roger Schlegel");
+            //votes.Display();
 
-            Round round = votes.Count();
-            Console.WriteLine($"Displaying vote counts...");
-            round.Display();
+            //Round round = votes.Count();
+            //Console.WriteLine($"Displaying vote counts...");
+            //round.Display();
 
-            Console.WriteLine($"Displaying winner...");
-            Console.WriteLine(round.HasWinner() ? "yes winner!" : "no winner...");
-            
+            //Console.WriteLine($"Displaying winner...");
+            //Console.WriteLine(round.HasWinner() ? "yes winner!" : "no winner...");
+
+
+            //List<Round> pastRounds = new List<Round>();
+            //var toElim = round.NamesToEliminate(pastRounds);
+            //Console.WriteLine($"Names to eliminate: {toElim.Count}");
+            //foreach (string name in toElim)
+            //{
+            //    Console.WriteLine(name);
+            //}
+
+            //Console.WriteLine("Test elimination rounds");
+            //Round testRound = new Round();
+            //testRound.Tally.Add(new CandidateVotes("A", 5000));
+            //testRound.Tally.Add(new CandidateVotes("B1", 4000));
+            //testRound.Tally.Add(new CandidateVotes("B2", 4000));
+            //testRound.Tally.Add(new CandidateVotes("C", 2500));
+            //testRound.Tally.Add(new CandidateVotes("D", 1000));
+            //testRound.Tally.Add(new CandidateVotes("E", 400));
+            //testRound.Tally.Add(new CandidateVotes("F", 100));
+
+            //testRound.Display();
+
+            //Console.WriteLine("\n\rNames to eliminate:");
+            //List<Round> pastRounds = new List<Round>();
+            //List<string> toElim = testRound.NamesToEliminate(pastRounds);
+            //foreach (string name in toElim)
+            //{
+            //    Console.WriteLine(name);
+            //}
+
+
+
+            VoteList voteList;
+            Round curRound;
+            List<Round> pastRounds = new List<Round>();
+            bool done = false;
+            voteList = new VoteList("Mayor.csv");
+            while (!done)
+            {
+                curRound = voteList.Count();
+                Console.WriteLine();
+                curRound.Display();
+                if (curRound.HasWinner())
+                {
+                    Console.WriteLine($"{curRound.Tally[0].Name} is the winner");
+                    done = true;
+                }
+                else
+                {
+                    List<string> toElim = curRound.NamesToEliminate(pastRounds);
+                    pastRounds.Add(curRound);
+                    foreach (string name in toElim)
+                    {
+                        voteList.Eliminate(name);
+                    }
+                }
+            }
+
 
         }
 
