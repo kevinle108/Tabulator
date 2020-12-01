@@ -35,7 +35,7 @@ namespace Tabulator
         public List<string> NamesToEliminate(List<Round> pastRounds)
         {
             List<string> names = new List<string>();
-            if (Tally.Select(x => x.Count).Distinct().ToList().Count == 1) // if all candidates have the same count; tie
+            if (Tally.Select(x => x.Count).Distinct().ToList().Count == 1) // there is a tie
             {
                 int tiedCount = Tally[0].Count;
                 List<string> namesTied = Tally.Where(x => x.Count == tiedCount).Select(x => x.Name).ToList();
