@@ -45,6 +45,7 @@ namespace Tabulator
             {
                 if (pastRounds.Count != 0)
                 {
+                    Console.WriteLine("Looking at previous rounds to break the tie...");
                     for (int i = pastRounds.Count - 1; i >= 0; i--) // loop thru previous rounds
                     {
                         List<CandidateVotes> filteredPrevRound = pastRounds[i].Tally.Where(x => leastNames.Any(y => y == x.Name)).ToList();
@@ -56,6 +57,13 @@ namespace Tabulator
                             break;
                         }
                     }
+                    //if (namesToElim.Count == 1 && Tally.Count == 2)
+                    //{
+                    //    string losingCandidate = namesToElim[0];
+                    //    string winningCandidate = Tally.Where(x => x.Name != namesToElim[0]).Select(x => x.Name).ToList()[0];
+                    //    Console.WriteLine($"{losingCandidate} has fewer votes...");
+                    //    Console.WriteLine($"{winningCandidate} is the winner!");
+                    //}
                     if (namesToElim.Count == 0) // if tie-breaker was not found using previous rounds, then ask the user
                     {
                         Console.WriteLine($"There was a tie for elimination that couldn't be broken with previous rounds. The following candidates are tied:");
@@ -69,6 +77,7 @@ namespace Tabulator
                 }
                 else // there are no past rounds to break the tie;
                 {
+                    Console.WriteLine("ELSE statement");
                     AskWhoToElim(namesToElim, leastNames);
                 }
             }

@@ -44,6 +44,7 @@ namespace Tabulator
             }
             // clean up Empty votes
             Votes.RemoveAll(x => x.Names.Count == 0);
+            Votes.RemoveAll(x => x.Names[0].Contains(Vote.NAME_SEPARATOR) == true);
         }
 
         public Round Count()
@@ -53,7 +54,7 @@ namespace Tabulator
             {
                 if (vote.FirstChoice() != "")
                 {
-                    
+
                     string firstChoiceName = vote.FirstChoice();
                     if (round.Tally.Count == 0)
                     {

@@ -107,7 +107,8 @@ namespace Tabulator
             while (!done)
             {
                 curRound = voteList.Count();
-                Console.WriteLine();
+                Console.WriteLine($"\n\rRound {pastRounds.Count+1}");
+
                 curRound.Display();
                 if (curRound.HasWinner())
                 {
@@ -117,6 +118,14 @@ namespace Tabulator
                 else
                 {
                     List<string> toElim = curRound.NamesToEliminate(pastRounds);
+                    if (curRound.Tally.Count == 2 && toElim.Count == 1) // broke a tie out of 2 total candidates
+                    {
+                        string losingCandidate = toElim[0];
+                        string winningCandidate = curRound.Tally.Where(x => x.Name != toElim[0]).Select(x => x.Name).ToList()[0];
+                        Console.WriteLine($"{losingCandidate} has fewer votes...");
+                        Console.WriteLine($"\n\r{winningCandidate} is the winner!");
+                        return;
+                    }
                     string elimNamesMessage = "After this round, " + toElim.Aggregate((i, j) => i + " & " + j) + " will be eliminated";
                     Console.WriteLine(elimNamesMessage);
                     pastRounds.Add(curRound);

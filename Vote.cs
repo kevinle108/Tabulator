@@ -8,7 +8,7 @@ namespace Tabulator
     {
         // a vote is a List<List<String>>
         public List<String> Names = new List<String>();
-        readonly char NAME_SEPARATOR = ']';
+        public static char NAME_SEPARATOR = ']';
         public Vote(string line)
         {
             List<string> nameList = new List<string>();
@@ -129,7 +129,6 @@ namespace Tabulator
 
         public Vote Eliminate(string nameToEliminate)
         {
-
             Names.RemoveAll(x => x == nameToEliminate); // to remove exact matches
 
             // to find and remove matches where there is more than 1 candidate / rank
