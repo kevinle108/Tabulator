@@ -35,97 +35,59 @@ namespace Tabulator
         public List<string> NamesToEliminate(List<Round> pastRounds)
         {
             List<string> namesToElim = new List<string>();
-
-            int amtNeeded = Tally.Sum(x => x.Count) / 2;
-            List<int> justCounts = Tally.Select(x => x.Count).Distinct().ToList();
-            for (int i = 0; i < justCounts.Count; i++)
+            int leastCount = Tally.Min(x => x.Count);
+            List<string> leastNames = Tally.Where(x => x.Count == leastCount).Select(x => x.Name).ToList();
+            if (leastNames.Count == 1)
             {
-                int numOfOccurences = Tally.Where(x => x.Count == justCounts[i]).ToList().Count;
-                int sumOfLowerVotes = 0;
-                for (int j = i+1; j < justCounts.Count; j++)
-                {
-                    int numOfOccurencesInner = Tally.Where(x => x.Count == justCounts[j]).ToList().Count;
-                    sumOfLowerVotes += justCounts[j] * numOfOccurencesInner;
-                }
-                //Console.WriteLine($"i:{i} {justCounts[i]} * {numOfOccurences} + {sumOfLowerVotes} > {amtNeeded}");
-                //Console.WriteLine($"{justCounts[i] * numOfOccurences + sumOfLowerVotes} > {amtNeeded}\n\r");
-                if (justCounts[i] * numOfOccurences + sumOfLowerVotes <= amtNeeded)
-                {
-                    namesToElim.AddRange(Tally.Where(x => x.Count == justCounts[i]).Select(x => x.Name).ToList());
-                }
+                namesToElim.AddRange(leastNames);
             }
-            if (namesToElim.Count == 0) // if no names are added up to this point, take the minimum count
+            else // more than 1 name with least amount of votes
             {
-                int minCount = Tally.Min(x => x.Count);
-                int numOfOccurences = Tally.Where(x => x.Count == minCount).ToList().Count;
-                if (numOfOccurences > 1)
+                if (pastRounds.Count != 0)
                 {
-                    
-                    List<CandidateVotes> tiedCurRound = Tally.Where(x => x.Count == minCount).ToList();
-                    string foundTiedMessage = "Found a tie between: " + tiedCurRound.Select(x => x.Name).Aggregate((i, j) => i + " & " + j);
-                    Console.WriteLine(foundTiedMessage);
+                    for (int i = pastRounds.Count - 1; i >= 0; i--) // loop thru previous rounds
+                    {
+                        List<CandidateVotes> filteredPrevRound = pastRounds[i].Tally.Where(x => leastNames.Any(y => y == x.Name)).ToList();
+                        int leastPrevCount = filteredPrevRound.Min(x => x.Count);
+                        List<string> leastPrevNames = filteredPrevRound.Where(x => x.Count == leastPrevCount).Select(x => x.Name).ToList();
+                        if (leastPrevNames.Count == 1) // tie can be broken
+                        {
+                            namesToElim.AddRange(leastPrevNames);
+                            break;
+                        }
+                    }
+                    if (namesToElim.Count == 0) // if tie-breaker was not found using previous rounds, then ask the user
+                    {
+                        Console.WriteLine($"There was a tie for elimination that couldn't be broken with previous rounds. The following candidates are tied:");
+                        foreach (string name in leastNames)
+                        {
+                            Console.WriteLine(name);
+                        }
+                        AskWhoToElim(namesToElim, leastNames);
+                    }
 
-                    if (pastRounds.Count > 0) // view pastround for Tie-Breaker
-                    {
-                        Console.WriteLine("Looking at previous round to break the tie...");
-                        Round prevRound = pastRounds.Last();
-                        List<CandidateVotes> filteredPastRound = prevRound.Tally.Where(x => tiedCurRound.Any(y => y.Name == x.Name)).OrderByDescending(x => x.Count).ToList();
-                        string prevRoundElimName = filteredPastRound.Last().Name;
-                        int prevRoundElimCount = filteredPastRound.Last().Count;
-                        int prevRoundElimCountOccur = filteredPastRound.Where(x => x.Count == prevRoundElimCount).ToList().Count;
-                        if (prevRoundElimCountOccur > 1) // prev round cannot break tie, ask user to select who to eliminate
-                        {
-                            List<CandidateVotes> prevTied = filteredPastRound.Where(x => x.Count == prevRoundElimCount).ToList();
-                            Console.WriteLine("In the previous round, these candidates are tied:");
-                            foreach (CandidateVotes candidate in prevTied)
-                            {
-                                candidate.Display();
-                            }
-                            bool ask = true;
-                            string input;
-                            List<string> prevTiedNames = prevTied.Select(x => x.Name).ToList();
-                            while (ask)
-                            {
-                                Console.Write("\n\rChoose 1 candidate to eliminate: ");
-                                input = Console.ReadLine();
-                                if (prevTiedNames.Contains(input))
-                                {
-                                    ask = false;
-                                    namesToElim.Add(input);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine($"{prevRoundElimName} will be eliminated via previous round tie-breaker");
-                            namesToElim.Add(prevRoundElimName);
-                        }
-                    }
-                    else // there is no past rounds
-                    {
-                        Console.WriteLine("No previous round to break tie.");
-                        bool ask = true;
-                        string input;
-                        List<string> tiedNames = tiedCurRound.Select(x => x.Name).ToList();
-                        while (ask)
-                        {
-                            Console.Write("\n\rChoose 1 candidate to eliminate: ");
-                            input = Console.ReadLine();
-                            if (tiedNames.Contains(input))
-                            {
-                                ask = false;
-                                namesToElim.Add(input);
-                            }
-                        }
-                    }
                 }
-                else
+                else // there are no past rounds to break the tie;
                 {
-                    namesToElim.AddRange(Tally.Where(x => x.Count == minCount).Select(x => x.Name).ToList());
+                    AskWhoToElim(namesToElim, leastNames);
                 }
             }
             return namesToElim;
+        }
 
+        private static void AskWhoToElim(List<string> namesToElim, List<string> leastNames)
+        {
+            bool ask = true;
+            string input;
+            while (ask)
+            {
+                Console.Write("\n\rPlease enter a candidate to eliminate: ");
+                if (leastNames.Contains(input = Console.ReadLine()))
+                {
+                    ask = false;
+                    namesToElim.Add(input);
+                }
+            }
         }
     }
 }
