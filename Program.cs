@@ -117,6 +117,8 @@ namespace Tabulator
                 else
                 {
                     List<string> toElim = curRound.NamesToEliminate(pastRounds);
+                    string elimNamesMessage = "After this round, " + toElim.Aggregate((i, j) => i + " & " + j) + " will be eliminated";
+                    Console.WriteLine(elimNamesMessage);
                     pastRounds.Add(curRound);
                     foreach (string name in toElim)
                     {
