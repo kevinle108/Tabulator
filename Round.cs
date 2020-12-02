@@ -36,13 +36,20 @@ namespace Tabulator
         {
             List<string> namesToElim = new List<string>();
 
-            int amtNeeded = Tally.Sum(x => x.Count);
+            int amtNeeded = Tally.Sum(x => x.Count) / 2;
             List<int> justCounts = Tally.Select(x => x.Count).Distinct().ToList();
             for (int i = 0; i < justCounts.Count; i++)
             {
                 int numOfOccurences = Tally.Where(x => x.Count == justCounts[i]).ToList().Count;
-                int sumOfLowerVotes = Tally.GetRange(i, Tally.Count - i).Sum(x => x.Count);
-                if (!(justCounts[i] * numOfOccurences + sumOfLowerVotes > amtNeeded))
+                int sumOfLowerVotes = 0;
+                for (int j = i+1; j < justCounts.Count; j++)
+                {
+                    int numOfOccurencesInner = Tally.Where(x => x.Count == justCounts[j]).ToList().Count;
+                    sumOfLowerVotes += justCounts[j] * numOfOccurencesInner;
+                }
+                //Console.WriteLine($"i:{i} {justCounts[i]} * {numOfOccurences} + {sumOfLowerVotes} > {amtNeeded}");
+                //Console.WriteLine($"{justCounts[i] * numOfOccurences + sumOfLowerVotes} > {amtNeeded}\n\r");
+                if (justCounts[i] * numOfOccurences + sumOfLowerVotes <= amtNeeded)
                 {
                     namesToElim.AddRange(Tally.Where(x => x.Count == justCounts[i]).Select(x => x.Name).ToList());
                 }
