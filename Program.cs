@@ -10,95 +10,6 @@ namespace Tabulator
     {
         public static void Main()
         {
-            //Console.WriteLine("Testing input file:");
-            //StreamReader file = new StreamReader("Mayor.csv");
-            //string line = file.ReadLine();
-            //file.Close();
-            //Console.WriteLine(line);
-            //Vote testVote = new Vote(line);
-            //testVote.Display();
-
-            //Console.WriteLine($"\r\nFirst Choice: {testVote.FirstChoice()}");
-            //Console.WriteLine("\r\nEliminate David Michael:");
-            //testVote = testVote.Eliminate("David Michael");
-            //testVote.Display();
-
-            //Console.WriteLine("\r\nIs vote exhausted? ...");
-            //if (testVote.IsExhausted() == true)
-            //{
-            //    Console.WriteLine("Vote is exhausted! Remove this vote.");
-            //}
-            //else if (testVote.IsExhausted() == false)
-            //{
-            //    Console.WriteLine("Vote is still good!");
-            //}
-
-            //Console.WriteLine("\r\nEliminate Roger Schlegel:");
-            //testVote = testVote.Eliminate("Roger Schlegel");
-            //testVote.Display();
-
-            //Console.WriteLine("\r\nIs vote exhausted? ...");
-            //if (testVote.IsExhausted() == true)
-            //{
-            //    Console.WriteLine("Vote is exhausted! Remove this vote.");
-            //}
-            //else if (testVote.IsExhausted() == false)
-            //{
-            //    Console.WriteLine("Vote is still good!");
-            //}
-
-            //Console.WriteLine("\r\nTesting CanidateVote Class:");
-            //CandidateVotes voteCount1 = new CandidateVotes("Kevin", 5);
-            //voteCount1.Display();
-            //voteCount1.Count++;
-            //voteCount1.Display();
-
-            //Console.WriteLine("\r\n...Testing VoteList Class:");
-            //VoteList votes = new VoteList("Mayor.csv");
-            //votes.Display();
-            //Console.WriteLine("\r\n...Testing Eliminate Roger Schlegel:");
-
-            //votes.Eliminate("Roger Schlegel");
-            //votes.Display();
-
-            //Round round = votes.Count();
-            //Console.WriteLine($"Displaying vote counts...");
-            //round.Display();
-
-            //Console.WriteLine($"Displaying winner...");
-            //Console.WriteLine(round.HasWinner() ? "yes winner!" : "no winner...");
-
-
-            //List<Round> pastRounds = new List<Round>();
-            //var toElim = round.NamesToEliminate(pastRounds);
-            //Console.WriteLine($"Names to eliminate: {toElim.Count}");
-            //foreach (string name in toElim)
-            //{
-            //    Console.WriteLine(name);
-            //}
-
-            //Console.WriteLine("Test elimination rounds");
-            //Round testRound = new Round();
-            //testRound.Tally.Add(new CandidateVotes("A", 5000));
-            //testRound.Tally.Add(new CandidateVotes("B1", 4000));
-            //testRound.Tally.Add(new CandidateVotes("B2", 4000));
-            //testRound.Tally.Add(new CandidateVotes("C", 2500));
-            //testRound.Tally.Add(new CandidateVotes("D", 1000));
-            //testRound.Tally.Add(new CandidateVotes("E", 400));
-            //testRound.Tally.Add(new CandidateVotes("F", 100));
-
-            //testRound.Display();
-
-            //Console.WriteLine("\n\rNames to eliminate:");
-            //List<Round> pastRounds = new List<Round>();
-            //List<string> toElim = testRound.NamesToEliminate(pastRounds);
-            //foreach (string name in toElim)
-            //{
-            //    Console.WriteLine(name);
-            //}
-
-
-
             VoteList voteList;
             Round curRound;
             List<Round> pastRounds = new List<Round>();
@@ -118,11 +29,10 @@ namespace Tabulator
                 else
                 {
                     List<string> toElim = curRound.NamesToEliminate(pastRounds);
-                    if (curRound.Tally.Count == 2 && toElim.Count == 1) // broke a tie out of 2 total candidates
+                    if (curRound.Tally.Count == 2 && toElim.Count == 1) // broke a tie out of 2 total candidates, we can declare a winner here
                     {
                         string losingCandidate = toElim[0];
                         string winningCandidate = curRound.Tally.Where(x => x.Name != toElim[0]).Select(x => x.Name).ToList()[0];
-                        Console.WriteLine($"{losingCandidate} has fewer votes...");
                         Console.WriteLine($"\n\r{winningCandidate} is the winner!");
                         return;
                     }

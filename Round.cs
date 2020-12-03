@@ -51,19 +51,13 @@ namespace Tabulator
                         List<CandidateVotes> filteredPrevRound = pastRounds[i].Tally.Where(x => leastNames.Any(y => y == x.Name)).ToList();
                         int leastPrevCount = filteredPrevRound.Min(x => x.Count);
                         List<string> leastPrevNames = filteredPrevRound.Where(x => x.Count == leastPrevCount).Select(x => x.Name).ToList();
-                        if (leastPrevNames.Count == 1) // tie can be broken
+                        if (leastPrevNames.Count == 1) // tie can be broken with previous round
                         {
+                            Console.WriteLine($"{leastPrevNames[0]} has fewer votes...");
                             namesToElim.AddRange(leastPrevNames);
                             break;
                         }
                     }
-                    //if (namesToElim.Count == 1 && Tally.Count == 2)
-                    //{
-                    //    string losingCandidate = namesToElim[0];
-                    //    string winningCandidate = Tally.Where(x => x.Name != namesToElim[0]).Select(x => x.Name).ToList()[0];
-                    //    Console.WriteLine($"{losingCandidate} has fewer votes...");
-                    //    Console.WriteLine($"{winningCandidate} is the winner!");
-                    //}
                     if (namesToElim.Count == 0) // if tie-breaker was not found using previous rounds, then ask the user
                     {
                         Console.WriteLine($"There was a tie for elimination that couldn't be broken with previous rounds. The following candidates are tied:");
@@ -73,11 +67,9 @@ namespace Tabulator
                         }
                         AskWhoToElim(namesToElim, leastNames);
                     }
-
                 }
                 else // there are no past rounds to break the tie;
                 {
-                    Console.WriteLine("ELSE statement");
                     AskWhoToElim(namesToElim, leastNames);
                 }
             }
