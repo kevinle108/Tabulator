@@ -18,6 +18,10 @@ namespace Tabulator
             int count = 0;
             while ((line = file.ReadLine()) != null)
             {
+                if (line == "")
+                {
+                    continue;
+                }
                 count++;
                 list.Add(new Vote(line));
             }

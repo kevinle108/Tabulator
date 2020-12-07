@@ -46,16 +46,15 @@ namespace Tabulator
                 if (pastRounds.Count != 0)
                 {
                     Console.WriteLine("Looking at previous rounds to break the tie...");
-                    
+                    List<string> elimNamesRemaining = leastNames;
+                    int elimCount = leastCount;
                     for (int i = pastRounds.Count - 1; i >= 0; i--) // loop thru previous rounds
                     {
-                        List<CandidateVotes> filteredPrevRound = pastRounds[i].Tally.Where(x => leastNames.Any(y => y == x.Name)).ToList();
-                        int leastPrevCount = filteredPrevRound.Min(x => x.Count);
-                        List<string> leastPrevNames = filteredPrevRound.Where(x => x.Count == leastPrevCount).Select(x => x.Name).ToList();
-                        if (leastPrevNames.Count == 1) // tie can be broken with previous round
+                        List<CandidateVotes> filteredPrevRound = pastRounds[i].Tally.Where(x => elimNamesRemaining.Any(y => y == x.Name)).ToList();
+                        elimNamesRemaining = filteredPrevRound.Where(x => x.Count == filteredPrevRound.Min(x => x.Count)).Select(x => x.Name).ToList();
+                        if (elimNamesRemaining.Count == 1) // tie can be broken with previous round
                         {
-                            Console.WriteLine($"{leastPrevNames[0]} has fewer votes...");
-                            namesToElim.AddRange(leastPrevNames);
+                            namesToElim = elimNamesRemaining;
                             break;
                         }
                     }
