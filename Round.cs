@@ -46,6 +46,7 @@ namespace Tabulator
                 if (pastRounds.Count != 0)
                 {
                     Console.WriteLine("Looking at previous rounds to break the tie...");
+                    
                     for (int i = pastRounds.Count - 1; i >= 0; i--) // loop thru previous rounds
                     {
                         List<CandidateVotes> filteredPrevRound = pastRounds[i].Tally.Where(x => leastNames.Any(y => y == x.Name)).ToList();

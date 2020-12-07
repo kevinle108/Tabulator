@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Utils;
 
 namespace Tabulator
 {
@@ -11,81 +12,10 @@ namespace Tabulator
         public static char NAME_SEPARATOR = ']';
         public Vote(string line)
         {
-            List<string> nameList = new List<string>();
-            string buildName = "";
-            string state = "start";
-            foreach (char c in line)
-            {
-                if (state == "start")
-                {
-                    if (c == ',')
-                    {
-                        nameList.Add(buildName.Trim('"'));
-                        buildName = "";
-                        state = "start";
-                    }
-                    else if (c == '"')
-                    {
-                        buildName += c;
-                        state = "insideQuoted";
-                    }
-                    else
-                    {
-                        buildName += c;
-                        state = "insideUnquoted";
-                    }
-                }
-                else if (state == "insideUnquoted")
-                {
-                    if (c == ',')
-                    {
-                        nameList.Add(buildName.Trim('"'));
-                        buildName = "";
-                        state = "start";
-                    }
-                    else
-                    {
-                        buildName += c;
-                        state = "insideUnquoted";
-                    }
-                }
-                else if (state == "insideQuoted")
-                {
-                    if (c == '"')
-                    {
-                        buildName += c;
-                        state = "maybeOutsideQuoted";
-                    }
-                    else
-                    {
-                        buildName += c;
-                        state = "insideQuoted";
-                    }
-                }
-                else if (state == "maybeOutsideQuoted")
-                {
-                    if (c == '"')
-                    {
-                        state = "insideQuoted";
-                    }
-                    else if (c == ',')
-                    {
-                        nameList.Add(buildName.Trim('"'));
-                        buildName = "";
-                        state = "start";
-                    }
-                }
-            }
-
-            if (!String.IsNullOrEmpty(buildName))
-            {
-                nameList.Add(buildName.Trim('"'));
-            }
-
-            // remove the first two elements in NameList because they are the image # and precinct code
-            nameList.RemoveRange(0, 2);
-
-            Names = nameList;
+            CsvUtils parser = new CsvUtils();
+            List<string> namesList = parser.CsvParser(line);
+            namesList.RemoveRange(0, 2);
+            Names = namesList;
         }
 
         public void Display()
