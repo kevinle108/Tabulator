@@ -47,8 +47,7 @@ namespace Tabulator
                 vote.Eliminate(nameToEliminate);
             }
             // clean up Empty votes
-            Votes.RemoveAll(x => x.Names.Count == 0);
-            Votes.RemoveAll(x => x.Names[0].Contains(Vote.NAME_SEPARATOR) == true);
+            Votes.RemoveAll(x => x.FirstChoice() == "");
         }
 
         public Round Count()
